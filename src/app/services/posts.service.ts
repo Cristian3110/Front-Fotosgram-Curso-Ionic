@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // importando el servicio
 import { environment } from '../../environments/environment'; // importar del normal no el de producción
+import { RespuestaPosts } from '../interfaces/interfaces';
 
 
 
@@ -21,6 +22,6 @@ export class PostsService {
 
     this.paginasPosts ++; // llamado a las paginas
 
-    return this.http.get(`${URL}/posts/?pagina=1`);
+    return this.http.get<RespuestaPosts>(`${URL}/posts/?pagina=1`);
   }
 }
