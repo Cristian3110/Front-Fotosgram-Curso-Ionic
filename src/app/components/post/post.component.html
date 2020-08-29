@@ -1,5 +1,41 @@
-<p>
+<div class="post">
 
-    Post: {{post.mensaje}}
+    <ion-item>
 
-</p>
+        <ion-avatar slot="start" lines="none">
+            <img src="/assets/avatars/{{post.usuario.avatar}}">
+        </ion-avatar>
+        <ion-label>
+            <h3>{{post.usuario.nombre}}</h3>
+            <h5>{{post.usuario.email}}</h5>
+        </ion-label>
+    </ion-item>
+
+    <!--ngIf si existen img-->
+    <ion-slides>
+        <ion-slide page="true">
+            <img src="/assets/perro-1.jpg">
+        </ion-slide>
+        <ion-slide page="true">
+            <img src="/assets/perro-2.jpg">
+        </ion-slide>
+        <ion-slide page="true">
+            <img src="/assets/perro-3.jpg">
+        </ion-slide>
+    </ion-slides>
+
+    <!--mapa-->
+    <!--Lo mostraremos si existen coordenadas-->
+    <ion-item lines=none>
+        <ion-icon slot="start" name="heart-outline"></ion-icon>
+        <ion-icon slot="end" name="bookmark-outline"></ion-icon>
+    </ion-item>
+
+    <ion-item text="none">
+        <ion-label text-wrap>
+            {{post.mensaje}}
+        </ion-label>
+
+    </ion-item>
+
+</div>
