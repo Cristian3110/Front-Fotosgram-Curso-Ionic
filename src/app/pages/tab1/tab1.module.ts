@@ -6,12 +6,14 @@ import { Tab1Page } from './tab1.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
+    ComponentsModule, // para usar los modulos para renderizar los mensajes por consola desde nuestro back
     ExploreContainerComponentModule,
     Tab1PageRoutingModule
   ],
