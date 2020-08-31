@@ -18,7 +18,11 @@ export class PostsService {
 
 
 
-  getPosts(){
+  getPosts(pull: boolean = false){
+
+    if ( pull ){
+      this.paginaPosts = 0;
+    }
 
     this.paginaPosts ++; // llamado a las paginas
 

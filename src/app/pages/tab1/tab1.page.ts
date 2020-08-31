@@ -11,6 +11,8 @@ export class Tab1Page implements OnInit{
 
   posts: Post[] = []; // que viene como un arreglo y se inicializa vacío
 
+  habilitado = true; // propiedad del infinite scroll
+
 
   constructor(private postsService: PostsService) {}
 
@@ -18,15 +20,22 @@ export class Tab1Page implements OnInit{
 
   ngOnInit(){
 
-    this.siguientes();
+    this.siguiente();
     // this.postsService.getPosts().subscribe(resp => {
     //   console.log(resp);
     //   this.posts.push(...resp.posts);
     // });
   }
 
-  siguientes(event?){
-    this.postsService.getPosts().subscribe(resp => {
+  recargar(event){
+    this.siguiente(event, true);
+    this.habilitado = true;
+    this.posts = []; // si el pull es verdadero hace el refrescamiento 
+  }
+
+  siguiente(event?, pull: boolean = false){
+
+    this.postsService.getPosts(pull).subscribe(resp => {
       console.log(resp);
       this.posts.push(...resp.posts);
 
@@ -35,9 +44,11 @@ export class Tab1Page implements OnInit{
         event.target.complete();
         // el infinity scroll termina y es cero
         if (resp.posts.length === 0){
-          event.target.disabled = true;
+          this.habilitado = false;
+          // event.target.disabled = true;
         }
       }
     });
   }
+
 }
