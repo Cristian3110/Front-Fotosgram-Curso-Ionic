@@ -12,7 +12,7 @@ const URL = environment.url;
 })
 export class PostsService {
 
-  paginasPosts = 0; // inicio de las paginas
+  paginaPosts = 0; // inicio de las paginas
 
   constructor(private http: HttpClient) { }
 
@@ -20,8 +20,8 @@ export class PostsService {
 
   getPosts(){
 
-    this.paginasPosts ++; // llamado a las paginas
+    this.paginaPosts ++; // llamado a las paginas
 
-    return this.http.get<RespuestaPosts>(`${URL}/posts/?pagina=1`);
+    return this.http.get<RespuestaPosts>(`${URL}/posts/?pagina=${this.paginaPosts}`);
   }
 }
