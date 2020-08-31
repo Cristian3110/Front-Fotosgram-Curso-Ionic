@@ -12,15 +12,16 @@
     </ion-item>
 
     <!--ngIf si existen img-->
-    <ion-slides>
-        <ion-slide page="true">
-            <img src="/assets/perro-1.jpg">
+    <ion-slides pager="true">
+        <!--para que salgan los puntos de los slider es pager-->
+        <!--con este pipe lo que hacemos el acomodar la resolución de cada img en
+         el background de un slide o de un div y se van a ver bien, utilizando
+        propiedades de css3 que nos acomodan la resolución de las img -->
+        <ion-slide class="image-slide" [style]="img1 | domSanitizer">
         </ion-slide>
-        <ion-slide page="true">
-            <img src="/assets/perro-2.jpg">
+        <ion-slide class="image-slide" [style]="img2 | domSanitizer">
         </ion-slide>
-        <ion-slide page="true">
-            <img src="/assets/perro-3.jpg">
+        <ion-slide class="image-slide" [style]="img3 | domSanitizer">
         </ion-slide>
     </ion-slides>
 

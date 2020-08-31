@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { PostsComponent } from './posts/posts.component';
 import { PostComponent } from './post/post.component';
 import { IonicModule } from '@ionic/angular';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 
@@ -14,7 +15,8 @@ import { IonicModule } from '@ionic/angular';
   exports: [PostsComponent], // exportando solo el que se va a utilizar fuera de este módulo
   imports: [
     CommonModule,
-    IonicModule // utilizaremos elementos de Ionic para renderizar en los 2 componentes creados
+    IonicModule, // utilizaremos elementos de Ionic para renderizar en los 2 componentes creados
+    PipesModule
   ]
 })
 export class ComponentsModule { }
