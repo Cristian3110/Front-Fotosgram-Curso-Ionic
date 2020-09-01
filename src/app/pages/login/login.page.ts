@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { IonSlides } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -7,6 +8,9 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
+  // para bloquear el slides
+  @ViewChild('slidePrincipal') slides: IonSlides;
 
   avatars = [
     {
@@ -52,6 +56,13 @@ export class LoginPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // con este método bloqueamos el slide
+    // this.slides.lockSwipes(true); con este lockSwipes no me funcionó y utilicé el ionViewDidEnter()
+  }
+
+// con este método paralicé el deslizamiento del slide, por el ciclo de vida de ionic
+  ionViewDidEnter() {
+    this.slides.lockSwipes(true);
   }
 
   login(fLogin: NgForm){
@@ -66,5 +77,16 @@ export class LoginPage implements OnInit {
     this.avatars.forEach( av => av.seleccionado = false);
 
     avatar.seleccionado = true;
-  };
+  }
+
+  mostrarRegistro(){
+    this.slides.lockSwipes(false); // Desbloqueo el slide
+    this.slides.slideTo(0);
+    this.slides.lockSwipes(true);
+  }
+  mostrarLogin(){
+    this.slides.lockSwipes(false); // Desbloqueo el slide
+    this.slides.slideTo(1); // El subindice infica a cuál slide quiero navegar o mostrar
+    this.slides.lockSwipes(true); // vuelvo a bloquear
+  }
 };
