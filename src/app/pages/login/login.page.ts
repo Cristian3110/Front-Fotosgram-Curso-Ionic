@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonSlides } from '@ionic/angular';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -53,7 +54,12 @@ export class LoginPage implements OnInit {
     slidesPerView: 3.5
   };
 
-  constructor() { }
+  loginUser = {
+    email: 'angeldamian@gmail.com',
+    password: '12345'
+  };
+
+  constructor(private usuarioService: UsuarioService) { }
 
   ngOnInit() {
     // con este método bloqueamos el slide
@@ -66,7 +72,14 @@ export class LoginPage implements OnInit {
   }
 
   login(fLogin: NgForm){
-    console.log(fLogin.valid);
+  // una pequeña validación
+    if (fLogin.invalid){ return; }
+
+    // validando el email y el login con el servicio, no hace falta hacer el subscribe porque esta en el service
+    this.usuarioService.login(this.loginUser.email, this.loginUser.password);
+
+    console.log(fLogin.valid); // para verificar lo que traemos desde el servicio
+    console.log(this.loginUser);
   }
 
   registro(fRegistro: NgForm){
