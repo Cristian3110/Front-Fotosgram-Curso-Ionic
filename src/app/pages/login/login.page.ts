@@ -81,7 +81,7 @@ export class LoginPage implements OnInit {
     // validando el email y el login con el servicio, no hace falta hacer el subscribe porque esta en el service
     const valido = await this.usuarioService.login(this.loginUser.email, this.loginUser.password);
 
-    if (valido){
+    if (!valido){
       // navegar al tabs, se le colocó "main" por seguridad
      this.navCtrl.navigateRoot('/main/tabs/tab1', {animated: true});
     }else{
