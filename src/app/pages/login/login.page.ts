@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, NavController } from '@ionic/angular';
 import { UsuarioService } from '../../services/usuario.service';
+import { UiServiceService } from '../../services/ui-service.service';
 
 @Component({
   selector: 'app-login',
@@ -59,7 +60,9 @@ export class LoginPage implements OnInit {
     password: '12345'
   };
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(private usuarioService: UsuarioService,
+              private navCtrl: NavController,
+              private uiService: UiServiceService ) { }
 
   ngOnInit() {
     // con este método bloqueamos el slide
@@ -71,12 +74,20 @@ export class LoginPage implements OnInit {
     this.slides.lockSwipes(true);
   }
 
-  login(fLogin: NgForm){
+  async login(fLogin: NgForm){
   // una pequeña validación
     if (fLogin.invalid){ return; }
 
     // validando el email y el login con el servicio, no hace falta hacer el subscribe porque esta en el service
-    this.usuarioService.login(this.loginUser.email, this.loginUser.password);
+    const valido = await this.usuarioService.login(this.loginUser.email, this.loginUser.password);
+
+    if (valido){
+      // navegar al tabs, se le colocó "main" por seguridad
+     this.navCtrl.navigateRoot('/main/tabs/tab1', {animated: true});
+    }else{
+      // mostrar alerta de usuario y contraseña no sono correctos
+      this.uiService.alertaInformativa('Usuario/Contraseña no son correctos');
+    }
 
     console.log(fLogin.valid); // para verificar lo que traemos desde el servicio
     console.log(this.loginUser);
