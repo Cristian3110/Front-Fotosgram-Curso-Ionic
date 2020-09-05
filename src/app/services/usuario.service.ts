@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import {environment} from '../../environments/environment';
+import { Usuario } from '../interfaces/interfaces';
+
 
 
 
@@ -24,11 +26,11 @@ export class UsuarioService {
     return new Promise(resolve =>{
 
       this.http.post(`${URL}/user/login`, data)
-              .subscribe(resp => {
+              .subscribe( async resp => {
                 console.log(resp);
 
                 if (resp[' ok ']){
-                  this.guardarToken(resp[' token ']);
+                  await this.guardarToken(resp[' token ']);
                   resolve(true); // todo correctamente
                 }else{
                   this.token = null; // con esto reseteamos el token
@@ -40,6 +42,31 @@ export class UsuarioService {
     });
 
   }
+
+    registro(usuario: Usuario){
+
+      return new Promise (resolve =>{
+
+      /*****************************************
+     * REVISAR LA LÓGICA DEL SIGUIENTE CÓDIGO
+     ****************************************/
+
+        this.http.post(`${URL}/user/create`, usuario).
+            subscribe( async resp => {
+              console.log(resp);
+
+              if (resp[' ok ']){
+                await this.guardarToken(resp[' token ']);
+                resolve(true); // todo correctamente
+              }else{
+                this.token = null; // con esto reseteamos el token
+                this.storage.clear(); // con esto limpiamos el storage ya que se intento guardar
+                resolve(false); // hubo un error
+              }
+            });
+      });
+    }
+
 
   // convertimos el guardarToken en una promesa debido a q noecesitamos que se guarde en el storage
    async guardarToken(token: string){

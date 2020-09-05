@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { IonSlides, NavController } from '@ionic/angular';
 import { UsuarioService } from '../../services/usuario.service';
 import { UiServiceService } from '../../services/ui-service.service';
+import { Usuario } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-login',
@@ -60,6 +61,13 @@ export class LoginPage implements OnInit {
     password: '12345'
   };
 
+  registerUser: Usuario = {
+      email: 'test',
+      password: '123456',
+      nombre: 'test',
+      avatar: 'av-1.png'
+  };
+
   constructor(private usuarioService: UsuarioService,
               private navCtrl: NavController,
               private uiService: UiServiceService ) { }
@@ -81,7 +89,11 @@ export class LoginPage implements OnInit {
     // validando el email y el login con el servicio, no hace falta hacer el subscribe porque esta en el service
     const valido = await this.usuarioService.login(this.loginUser.email, this.loginUser.password);
 
-    if (!valido){
+
+      /*****************************************
+     * REVISAR LA LÓGICA DEL SIGUIENTE CÓDIGO
+     ****************************************/
+    if (valido){
       // navegar al tabs, se le colocó "main" por seguridad
      this.navCtrl.navigateRoot('/main/tabs/tab1', {animated: true});
     }else{
@@ -93,7 +105,22 @@ export class LoginPage implements OnInit {
     console.log(this.loginUser);
   }
 
-  registro(fRegistro: NgForm){
+  async registro(fRegistro: NgForm){
+
+    if (fRegistro.invalid) {return; }
+
+    const valido = await this.usuarioService.registro(this.registerUser);
+
+    /*****************************************
+     * REVISAR LA LÓGICA DEL SIGUIENTE CÓDIGO
+     ****************************************/
+    if ( valido ){
+        // navegar al tabs, se le colocó "main" por seguridad
+        this.navCtrl.navigateRoot('/main/tabs/tab1', {animated: true});
+    }else{
+        // mostrar alerta de usuario y contraseña no sono correctos
+        this.uiService.alertaInformativa('Ese correo electronico ya existe');
+  }
     console.log(fRegistro.valid);
   }
 
